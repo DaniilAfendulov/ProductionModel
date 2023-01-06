@@ -1,5 +1,6 @@
 ﻿using ProductionModel.Interfaces;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 
 namespace ProductionModel
@@ -34,6 +35,21 @@ namespace ProductionModel
             return true;
         }
 
+        public void AddRule(int[] inputsIndexes, int[] outputsIndexes)
+        {
+            if (inputsIndexes.Length != _inputs.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(inputsIndexes));
+            }
+            if (outputsIndexes.Length != _outputs.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(outputsIndexes));
+            }
+
+            IEnumerable<IFuzzyVar> inputs = _inputs.Select((inp, i) => inp.FuzzyVars[i]);
+            IEnumerable<IFuzzyVar> outputs = _outputs.Select((outp, i) => outp.FuzzyVars[i]);
+            _rules.Add(new Rule(inputs, outputs));
+        }
 
         public IFuzzyVar[] Execute(double[] inputPoints)
         {
