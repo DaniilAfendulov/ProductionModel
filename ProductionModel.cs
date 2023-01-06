@@ -35,7 +35,6 @@ namespace ProductionModel
         }
 
 
-
         public IFuzzyVar[] Execute(double[] inputPoints)
         {
             if (inputPoints.Length != _inputs.Count)

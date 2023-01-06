@@ -2,7 +2,8 @@
 {
     public interface IFuzzyVar
     {
-        public string Name { get; set; }
+        string Name { get; set; }
         double CalcDegreeOfTruth(double inputPoint);
+        double DefusicatedValue { get; }
     }
 }
