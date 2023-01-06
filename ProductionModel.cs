@@ -10,6 +10,7 @@ namespace ProductionModel
         private readonly List<IRule> _rules = new();
         private readonly List<IFuzzySet> _inputs = new();
         private readonly List<IFuzzySet> _outputs = new();
+        private readonly Func<IEnumerable<double>, double> _concatinateOperation = SetOperations.Min;
 
         public ProductionModel(List<IRule> rules, List<IFuzzySet> inputs, List<IFuzzySet> outputs)
         {
@@ -48,8 +49,10 @@ namespace ProductionModel
 
             IEnumerable<IFuzzyVar> inputs = _inputs.Select((inp, i) => inp.FuzzyVars[i]);
             IEnumerable<IFuzzyVar> outputs = _outputs.Select((outp, i) => outp.FuzzyVars[i]);
-            _rules.Add(new Rule(inputs, outputs));
+            _rules.Add(new Rule(inputs, outputs, _concatinateOperation));
         }
+
+        public void RemoveRule(int index) => _rules.RemoveAt(index);
 
         public IFuzzyVar[] Execute(double[] inputPoints)
         {
@@ -67,7 +70,14 @@ namespace ProductionModel
                     mostTrustedRuleIndex = i;
                 }
             }
-            return _rules[mostTrustedRuleIndex].GetOutputs();
+            return _rules[mostTrustedRuleIndex].Outputs.ToArray();
+        }
+
+        public double[] Defuzzy(IFuzzyVar[] fuzzyVars) => fuzzyVars.Select(v => v.DefusicatedValue).ToArray();
+
+        public double[] ExecuteWithDefuzzy(double[] inputPoints)
+        {
+            return Defuzzy(Execute(inputPoints));
         }
     }
 }
