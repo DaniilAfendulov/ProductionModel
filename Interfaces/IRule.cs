@@ -3,6 +3,7 @@
     public interface IRule
     {
         double CalcDegreeOfTruth(double[] inputPoints);
-        IFuzzyVar[] GetOutputs();
+        List<IFuzzyVar> Outputs { get; }
+        List<IFuzzyVar> Inputs { get; }
     }
 }
