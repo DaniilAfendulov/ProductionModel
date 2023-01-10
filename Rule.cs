@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ProductionModel
 {
@@ -32,7 +33,7 @@ namespace ProductionModel
         {
             Outputs = outputs.ToList();
             Inputs = inputs.ToList();
-            ConcatinateOperation = concatinateOperation;
+            ConcatinateOperation = concatinateOperation ?? throw new ArgumentNullException(nameof(concatinateOperation)); ;
         }
 
         public double CalcDegreeOfTruth(double[] inputPoints)
