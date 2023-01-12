@@ -29,7 +29,7 @@ namespace ProductionModel
             }
         }
 
-        public Rule(IEnumerable<IFuzzyVar> outputs, IEnumerable<IFuzzyVar> inputs, Func<IEnumerable<double>, double> concatinateOperation)
+        public Rule( IEnumerable<IFuzzyVar> inputs, IEnumerable<IFuzzyVar> outputs, Func<IEnumerable<double>, double> concatinateOperation)
         {
             Outputs = outputs.ToList();
             Inputs = inputs.ToList();
