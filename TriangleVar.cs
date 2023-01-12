@@ -30,8 +30,11 @@ namespace ProductionModel
                 }
                 _points = value;
 
-                _lineFunctions[0] = new LineFunction(new Tuple<double,double>(_points[0], 0), new Tuple<double, double>(_points[1], 1));
-                _lineFunctions[1] = new LineFunction(new Tuple<double, double>(_points[1], 1), new Tuple<double, double>(_points[2], 0));
+                var point1 = new Tuple<double, double>(_points[0], 0);
+                var point2 = new Tuple<double, double>(_points[1], 1);
+                var point3 = new Tuple<double, double>(_points[2], 0);
+                _lineFunctions[0] = new LineFunction(point1, point2);
+                _lineFunctions[1] = new LineFunction(point2, point3);
             }
         }
 

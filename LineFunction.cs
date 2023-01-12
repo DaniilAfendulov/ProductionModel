@@ -10,8 +10,8 @@
         }
         public LineFunction(Tuple<double, double> point1, Tuple<double, double> point2)
         {
-            k = (point2.Item2 - point1.Item1) / (point2.Item2 - point1.Item1);
-            b = point2.Item2 - k * point2.Item1;
+            k = (point2.Item2 - point1.Item2) / (point2.Item1 - point1.Item1);
+            b = point1.Item2 - k * point1.Item1;
         }
 
         public double CalcY(double x) => k * x + b;
