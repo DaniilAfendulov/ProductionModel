@@ -8,16 +8,16 @@ namespace ProductionModel
     public class ProductionModel
     {
         private readonly List<IRule> _rules = new();
-        private readonly List<IFuzzySet> _inputs = new();
-        private readonly List<IFuzzySet> _outputs = new();
+        public readonly List<IFuzzySet> Inputs = new();
+        public readonly List<IFuzzySet> Outputs = new();
         private readonly Func<IEnumerable<double>, double> _concatinateOperation = SetOperations.Min;
 
         public ProductionModel(List<IRule> rules, List<IFuzzySet> inputs, List<IFuzzySet> outputs)
         {
             CheckInputs(rules, inputs, outputs);
             _rules = rules;
-            _inputs = inputs;
-            _outputs = outputs;
+            Inputs = inputs;
+            Outputs = outputs;
         }
         public ProductionModel(List<IFuzzySet> inputs, List<IFuzzySet> outputs):
             this(new(), inputs, outputs)
@@ -26,6 +26,8 @@ namespace ProductionModel
         public ProductionModel():this(new(), new())
         {
         }
+
+        public string Name { get; set; }
 
         private bool CheckInputs(List<IRule> rules, List<IFuzzySet> inputs, List<IFuzzySet> outputs)
         {
@@ -38,17 +40,17 @@ namespace ProductionModel
 
         public void AddRule(int[] inputsIndexes, int[] outputsIndexes)
         {
-            if (inputsIndexes.Length != _inputs.Count)
+            if (inputsIndexes.Length != Inputs.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(inputsIndexes));
             }
-            if (outputsIndexes.Length != _outputs.Count)
+            if (outputsIndexes.Length != Outputs.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(outputsIndexes));
             }
 
-            IEnumerable<IFuzzyVar> inputs = _inputs.Select((inp, i) => inp.FuzzyVars[i]);
-            IEnumerable<IFuzzyVar> outputs = _outputs.Select((outp, i) => outp.FuzzyVars[i]);
+            IEnumerable<IFuzzyVar> inputs = Inputs.Select((inp, i) => inp.FuzzyVars[i]);
+            IEnumerable<IFuzzyVar> outputs = Outputs.Select((outp, i) => outp.FuzzyVars[i]);
             _rules.Add(new Rule(inputs, outputs, _concatinateOperation));
         }
 
@@ -56,7 +58,7 @@ namespace ProductionModel
 
         public IFuzzyVar[] Execute(double[] inputPoints)
         {
-            if (inputPoints.Length != _inputs.Count)
+            if (inputPoints.Length != Inputs.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(inputPoints));
             }
